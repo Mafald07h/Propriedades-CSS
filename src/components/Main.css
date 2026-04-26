@@ -12,3 +12,17 @@
     width: 200px;
     height: 200px;
 }
+
+.section-background-color {
+    background-color: darkgray;
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    padding: 20px;
+}
+
+.square2 {
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+}
