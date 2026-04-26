@@ -1,76 +1,57 @@
-import "./Main.css"
-import { useState } from "react"
+import "./Main.css";
+import { useState } from "react";
 
-function Main(){
+function Main() {
+    // 1. Estados agrupados por contexto
+    const [borderRadius, setBorderRadius] = useState(0);
+    const [colors, setColors] = useState({ r: 0, g: 0, b: 0 });
 
-    const [valorGeral,setValorGeral] = useState(0)
+    // 2. Função genérica para alterar valores numéricos com limite mínimo de 0
+    const updateValue = (setter, currentVal, delta) => {
+        setter(Math.max(0, currentVal + delta));
+    };
 
-    const [redColor,setRedColor] = useState(0)
-    const [greenColor,setGreenColor] = useState(0)
-    const [blueColor,setBlueColor] = useState(0)
-
-    function addColorRed(){
-        setRedColor(redColor => redColor + 1)
-    }
-
-    function addColorGreen(){
-        setGreenColor(greenColor => greenColor + 1)
-    }
-
-    function addColorBlue(){
-        setBlueColor(blueColor => blueColor + 1)
-    }
-
-    function addColorRed(){
-        setRedColor(redColor => redColor + 1)
-    }
-
-    function addValue(){
-        setValorGeral(valorGeral => valorGeral + 1)
-    }
-
-    function removeValue(){
-        setValorGeral(valorGeral => valorGeral - 1)
-        if(valorGeral < 0){
-            setValorGeral(valorGeral => valorGeral + 2)
-        }
-    }
+    // 3. Função genérica para as cores
+    const addColor = (channel) => {
+        setColors(prev => ({
+            ...prev,
+            [channel]: Math.min(prev[channel] + 10, 255) // Incremento de 10 em 10, máx 255
+        }));
+    };
 
     return (
-        <>
-            <div className="container">
-                <section id="border-radius" className="section-border-radius">
+        <div className="container">
+            <section className="section-border-radius">
                 <div>
                     <h1 className="title">Border Radius</h1>
                     <div className="values">
-                        <div className="general-value">
-                            <code>
-                                <pre>border-radius: {valorGeral};</pre>
-                            </code>
-                            <button onClick={addValue}>Change +1 </button>
-                            <button onClick={removeValue}>Change -1 </button>
+                        <code>border-radius: {borderRadius}px;</code>
+                        <div className="controls">
+                            <button onClick={() => updateValue(setBorderRadius, borderRadius, 1)}>+1</button>
+                            <button onClick={() => updateValue(setBorderRadius, borderRadius, -1)}>-1</button>
                         </div>
                     </div>
                 </div>
-                <div className="square" style={{borderRadius: valorGeral}}>
+                <div 
+                    className="square" 
+                    style={{ borderRadius: `${borderRadius}px` }}
+                ></div>
+            </section>
+
+            <section className="section-background-color">
+                <div 
+                    className="square" 
+                    style={{ backgroundColor: `rgb(${colors.r}, ${colors.g}, ${colors.b})` }}
+                ></div>
+                <div className="controls">
+                    <button onClick={() => addColor('r')}>Red +10</button>
+                    <button onClick={() => addColor('g')}>Green +10</button>
+                    <button onClick={() => addColor('b')}>Blue +10</button>
                 </div>
-                </section>
-                <section id="box-shadow">
-                
-                </section>
-                <section id="margin">
-
-                </section>
-                <section id="padding">
-
-                </section>
-                <section id="background-color" className="section-background-color ">
-                    <div className="squar2" style={{backgroundColor: redColor}}></div>
-                    <button onClick={addColorRed}>Red Color</button>
-                </section>
-            </div>
-        </>
-    )
+                <p>RGB({colors.r}, {colors.g}, {colors.b})</p>
+            </section>
+        </div>
+    );
 }
 
-export default Main
+export default Main;
