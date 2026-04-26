@@ -1,0 +1,14 @@
+
+.section-border-radius {
+    background-color: darkgray;
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    padding: 20px;
+}
+
+.square {
+    background-color: darkslateblue;
+    width: 200px;
+    height: 200px;
+}
